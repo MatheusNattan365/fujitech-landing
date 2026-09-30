@@ -1,26 +1,309 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-navy: #102238;
+  --brand-blue: #2563eb;
+  --brand-blue-hover: #1d4ed8;
+  --brand-teal: #14b8a6;
+  --surface: #ffffff;
+  --surface-muted: #f5f7fa;
+  --text-primary: #102238;
+  --text-secondary: #475569;
+  --border: #e2e8f0;
+  --navy: var(--brand-navy);
+  --navy-2: #1b3348;
+  --cyan: var(--brand-blue);
+  --cyan-ink: var(--brand-blue-hover);
+  --paper: var(--surface-muted);
+  --ink: var(--text-primary);
+  --muted: var(--text-secondary);
+  --line: var(--border);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --background: var(--surface);
+  --foreground: var(--text-primary);
+  --craft-ink: #1f1f20;
+  --craft-ink-alt: #26282c;
+  --craft-ink-accent: #2e3238;
+  --craft-bone: #dce0e6;
+  --craft-mist: #606d80;
+  --craft-ember: #567ebb;
+  --p1: 0;
+  --p2: 0;
+  --p3: 0;
+  --p4: 0;
 }
 
 @theme inline {
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-hover: var(--brand-blue-hover);
+  --color-brand-teal: var(--brand-teal);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-border: var(--border);
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-cyan: var(--cyan);
+  --color-cyan-ink: var(--cyan-ink);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-craft-ink: var(--craft-ink);
+  --color-craft-ink-alt: var(--craft-ink-alt);
+  --color-craft-ink-accent: var(--craft-ink-accent);
+  --color-craft-bone: var(--craft-bone);
+  --color-craft-mist: var(--craft-mist);
+  --color-craft-ember: var(--craft-ember);
+  --font-display: var(--font-unbounded), sans-serif;
+  --font-body: var(--font-manrope), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.65;
+}
+
+.craft {
+  background: var(--craft-ink);
+  color: var(--craft-bone);
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+.craft :focus-visible {
+  outline-color: var(--craft-ember);
+}
+
+.furniture {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+.craft h1,
+.craft h2,
+.craft h3 {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+.hairline {
+  border: 0.5px solid rgba(220, 224, 230, 0.16);
+}
+
+.hairline-b {
+  border-bottom: 0.5px solid rgba(220, 224, 230, 0.16);
+}
+
+.wipe-base {
+  color: rgba(220, 224, 230, 0.16);
+}
+
+.wipe-overlay {
+  clip-path: inset(0 calc(100% - (var(--p2) * 100%)) 0 0);
+}
+
+.craft-stage {
+  position: relative;
+  height: 220svh;
+}
+
+.craft-pin {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100svh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.craft .markdown a {
+  color: var(--craft-ember);
+}
+
+.craft details summary::-webkit-details-marker {
+  display: none;
+}
+
+.craft {
+  color-scheme: dark;
+}
+
+.craft ::selection {
+  background: var(--craft-ember);
+  color: var(--craft-bone);
+}
+
+.craft label {
+  color: var(--craft-bone);
+}
+
+.craft input:not([type="checkbox"]):not([type="radio"]),
+.craft textarea,
+.craft select {
+  background: var(--craft-ink);
+  color: var(--craft-bone);
+  border-color: rgba(220, 224, 230, 0.2);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.craft input::placeholder,
+.craft textarea::placeholder {
+  color: var(--craft-mist);
+}
+
+.craft input:not([type="checkbox"]):not([type="radio"]):focus,
+.craft textarea:focus,
+.craft select:focus {
+  border-color: var(--craft-ember);
+  outline: none;
+  box-shadow: none;
+}
+
+.craft input[type="checkbox"],
+.craft input[type="radio"] {
+  accent-color: var(--craft-ember);
+}
+
+.craft option {
+  background: var(--craft-ink);
+  color: var(--craft-bone);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #dbe7ff;
+  color: var(--brand-navy);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s var(--ease) both;
+}
+
+.accordion-panel[data-state="open"] {
+  animation: accordion-down 0.28s var(--ease);
+}
+
+.accordion-panel[data-state="closed"] {
+  animation: accordion-up 0.22s var(--ease);
+}
+
+.markdown > * + * {
+  margin-top: 1rem;
+}
+
+.markdown h2,
+.markdown h3 {
+  margin-top: 2rem;
+  font-size: 1.7rem;
+}
+
+.markdown a {
+  color: var(--brand-blue-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.markdown ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+
+.markdown strong {
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .craft-stage {
+    height: auto;
+  }
+
+  .craft-pin {
+    position: relative;
+    height: auto;
+    min-height: 70svh;
+    padding: 6rem 0;
+  }
+
+  .craft-canvas {
+    display: none;
+  }
+
+  .wipe-overlay {
+    clip-path: none;
+  }
 }
