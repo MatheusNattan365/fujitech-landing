@@ -33,6 +33,11 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? errors.check };
   if (!isChallengeId(parsed.data.challenge)) return { error: errors.challenge };
 
-  await getDb().insert(leads).values({ ...parsed.data, locale });
+  try {
+    await getDb().insert(leads).values({ ...parsed.data, locale });
+  } catch (error) {
+    console.error(error);
+    return { error: errors.send };
+  }
   return { ok: true };
 }

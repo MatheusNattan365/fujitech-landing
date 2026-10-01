@@ -67,6 +67,16 @@ function prefer<T extends { locale: string }>(rows: T[], locale: Locale) {
   return rows.find((row) => row.locale === locale) ?? rows.find((row) => row.locale === defaultLocale) ?? rows[0];
 }
 
+async function publicRead<T>(fallback: T, read: () => Promise<T>) {
+  if (!process.env.DATABASE_URL) return fallback;
+  try {
+    return await read();
+  } catch (error) {
+    console.error(error);
+    return fallback;
+  }
+}
+
 function projectView(
   project: typeof projects.$inferSelect,
   copy: Pick<ProjectCopy, "title" | "slug" | "summary" | "problem" | "solution" | "outcome" | "body">,
@@ -92,7 +102,11 @@ function projectView(
   };
 }
 
-export async function listPublishedProjects(locale: Locale) {
+export function listPublishedProjects(locale: Locale) {
+  return publicRead([] as ProjectView[], () => readPublishedProjects(locale));
+}
+
+async function readPublishedProjects(locale: Locale) {
   const fallback = alias(projectTranslations, "project_fallback");
   const rows = await getDb()
     .select({
@@ -135,7 +149,11 @@ export async function listAllProjects() {
   });
 }
 
-export async function getPublishedProject(locale: Locale, slug: string) {
+export function getPublishedProject(locale: Locale, slug: string) {
+  return publicRead(null as ProjectView | null, () => readPublishedProject(locale, slug));
+}
+
+async function readPublishedProject(locale: Locale, slug: string) {
   const db = getDb();
   const matches = await db.select().from(projectTranslations).where(eq(projectTranslations.slug, slug));
   const found = prefer(matches, locale);
@@ -149,11 +167,13 @@ export async function getPublishedProject(locale: Locale, slug: string) {
   return copy ? projectView(project, copy) : null;
 }
 
-export async function projectAlternates(projectId: string) {
-  return getDb()
+export function projectAlternates(projectId: string) {
+  return publicRead([] as { locale: string; slug: string }[], () =>
+    getDb()
     .select({ locale: projectTranslations.locale, slug: projectTranslations.slug })
     .from(projectTranslations)
-    .where(eq(projectTranslations.projectId, projectId));
+    .where(eq(projectTranslations.projectId, projectId)),
+  );
 }
 
 export async function getProject(id: string) {
@@ -164,7 +184,11 @@ export async function getProject(id: string) {
   return { ...project, translations: copies };
 }
 
-export async function listPublishedPartnerships(locale: Locale) {
+export function listPublishedPartnerships(locale: Locale) {
+  return publicRead([] as PartnershipView[], () => readPublishedPartnerships(locale));
+}
+
+async function readPublishedPartnerships(locale: Locale) {
   const fallback = alias(partnershipTranslations, "partnership_fallback");
   const rows = await getDb()
     .select({
@@ -228,7 +252,11 @@ export async function listAllPartnerships() {
   });
 }
 
-export async function getPublishedPartnership(locale: Locale, slug: string) {
+export function getPublishedPartnership(locale: Locale, slug: string) {
+  return publicRead(null as PartnershipView | null, () => readPublishedPartnership(locale, slug));
+}
+
+async function readPublishedPartnership(locale: Locale, slug: string) {
   const db = getDb();
   const matches = await db.select().from(partnershipTranslations).where(eq(partnershipTranslations.slug, slug));
   const found = prefer(matches, locale);
@@ -245,11 +273,13 @@ export async function getPublishedPartnership(locale: Locale, slug: string) {
   return copy ? partnershipView(partnership, copy) : null;
 }
 
-export async function partnershipAlternates(partnershipId: string) {
-  return getDb()
+export function partnershipAlternates(partnershipId: string) {
+  return publicRead([] as { locale: string; slug: string }[], () =>
+    getDb()
     .select({ locale: partnershipTranslations.locale, slug: partnershipTranslations.slug })
     .from(partnershipTranslations)
-    .where(eq(partnershipTranslations.partnershipId, partnershipId));
+    .where(eq(partnershipTranslations.partnershipId, partnershipId)),
+  );
 }
 
 export async function getPartnership(id: string) {
@@ -276,7 +306,11 @@ function testimonialView(
   };
 }
 
-export async function listPublishedTestimonials(locale: Locale) {
+export function listPublishedTestimonials(locale: Locale) {
+  return publicRead([] as TestimonialView[], () => readPublishedTestimonials(locale));
+}
+
+async function readPublishedTestimonials(locale: Locale) {
   const fallback = alias(testimonialTranslations, "testimonial_fallback");
   const rows = await getDb()
     .select({

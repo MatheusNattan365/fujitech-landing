@@ -236,6 +236,7 @@ const messages = {
     backHome: "Voltar ao início",
     load: "Não foi possível carregar esta página.",
     retry: "Tentar de novo",
+    send: "Não foi possível enviar a mensagem agora.",
     check: "Verifique os campos.",
     name: "Informe seu nome.",
     email: "Informe um e-mail válido.",

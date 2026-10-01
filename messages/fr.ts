@@ -238,6 +238,7 @@ const messages = {
     backHome: "Retour à l'accueil",
     load: "Cette page n'a pas pu être chargée.",
     retry: "Réessayer",
+    send: "Le message n'a pas pu être envoyé pour le moment.",
     check: "Vérifiez les champs.",
     name: "Indiquez votre nom.",
     email: "Indiquez un e-mail valide.",

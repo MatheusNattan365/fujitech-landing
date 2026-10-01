@@ -237,6 +237,7 @@ const messages = {
     backHome: "Back to the start",
     load: "This page could not be loaded.",
     retry: "Try again",
+    send: "The message could not be sent right now.",
     check: "Check the fields.",
     name: "Enter your name.",
     email: "Enter a valid email.",
